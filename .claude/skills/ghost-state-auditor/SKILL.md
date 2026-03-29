@@ -144,6 +144,19 @@ If the codebase is large (>50 files with state), explicitly state which scope yo
 
 ---
 
+## Scope Boundaries — What This Skill Does NOT Cover
+
+This skill audits **state persistence and synchronization** only. Skip findings that are purely:
+
+- **Security vulnerabilities** (injection, auth bypass, secret exposure) — these are covered by `/watchdog review`
+- **Code quality** (naming, complexity, duplication) — covered by `code-simplifier`
+- **Performance** (slow queries, blocking IO, memory leaks) — unless they cause state loss
+- **Test coverage** — covered by `test-runner`
+
+If a finding is both a persistence bug AND a security issue (e.g., auth token stored in memory only), report it as a ghost state finding and note the security overlap.
+
+---
+
 ## Eventual Consistency Exemptions
 
 Some architectures intentionally desynchronize state across layers. Do NOT flag these as bugs:
@@ -495,3 +508,17 @@ ALWAYS:
 - [ ] Phase 7: Verify display sources match authoritative data
 - [ ] Phase 8: Verify all C/H/M findings with code trace + grep
 - [ ] Present findings (save to `docs/ghost-state-audit.md` if requested)
+- [ ] Append summary to `docs/audit-log.md` (create if missing)
+
+## Audit Log Entry
+
+After every audit, append a single entry to `docs/audit-log.md` in the project root:
+
+```markdown
+### [DATE] Ghost State Audit
+- **Findings:** [N] CRITICAL | [N] HIGH | [N] MEDIUM | [N] LOW
+- **Status:** [new findings / all clear / regressions from previous]
+- **Key issues:** [1-line summary of top findings, or "None"]
+```
+
+Create the file with a `# Audit Log` header if it doesn't exist.
