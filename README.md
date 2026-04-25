@@ -1,5 +1,8 @@
 # Ghost State Auditor
 
+![ghost-state-auditor](assets/banner.png)
+
+
 An AI coding agent skill that finds **ghost state** — data that exists in one layer (memory, DB, cache, API) but is missing, stale, or desynchronized in another.
 
 These bugs pass all unit tests because each layer works correctly in isolation. The inconsistency only surfaces across boundaries: process restarts, daily resets, layer transitions, or multi-step workflows.
